@@ -10,7 +10,7 @@ export default function Games() {
 
         const fetchData = async () => {
 
-            const result = await api.get("/helix/games/top")
+            const result = await api.get("https://api.twitch.tv/helix/games/top")
             console.log(result);
 
             let dataArray = result.data.data;
@@ -28,7 +28,6 @@ export default function Games() {
         fetchData();
 
     }, [])
-    console.log(games);
 
   return (
     <div>
