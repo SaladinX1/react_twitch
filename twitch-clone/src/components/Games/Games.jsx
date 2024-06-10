@@ -16,7 +16,7 @@ export default function Games() {
             let dataArray = result.data.data;
             let finalArray = dataArray.map(game => {
               let newUrl = game.box_art_url
-              .replace("{witdth}","250")
+              .replace("{width}","250")
               .replace("{height}", "300");
               game.box_art_url = newUrl;
               return game;
@@ -40,7 +40,7 @@ export default function Games() {
             
             <div key={index} className='carteGames'>
 
-              <img src={game.box_art_url} alt='jeu profil pic' className='imgCarte' />
+              <img src={game.box_art_url} alt='jeu profile pic' className='imgCarte' />
               
                   <div className='cardBodyGames'>
                         <h5 className='titreCartesGames'> {game.name} </h5>
