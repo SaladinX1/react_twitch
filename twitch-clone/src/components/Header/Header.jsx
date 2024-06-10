@@ -2,6 +2,7 @@ import React from 'react'
 import logo from './logo_twitch.png'
 import search from './loop.png'
 import menuIco from './menu.png'
+import { Link } from 'react-router-dom'
 
 export default function Header() {
   return (
@@ -11,13 +12,19 @@ export default function Header() {
             <ul className='listeMenu'>
 
               <li className='liensNav'>
-                  <img src={logo} alt="logo twitch" className='logo' />
+                  <Link to="/" className='lien'>
+                    <img src={logo} alt="logo twitch" className='logo' />
+                  </Link>
               </li>
               <li className="liensNav">
-                Top Games
+                <Link className='lien' to="/">
+                  Top Games
+                </Link>
               </li>
               <li className="liensNav">
-                Top Streams
+                <Link to="/top-streams" className='lien'>
+                    Top Streams
+                </Link>
               </li>
               <li className="liensNav">
                   <form className='formSubmit'>

@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react'
-import api from '../../api'
+import React, {useEffect, useState} from 'react';
+import api from '../../api';
+import {Link} from 'react-router-dom';
 
 export default function TopStream() {
 
@@ -110,7 +111,11 @@ export default function TopStream() {
 
                       <p className='txtStream viewers'> Viewers : {channel.viewer_count}</p>
 
+                    <Link className='lien' to={{
+                      pathname: `/live/${channel.login}`
+                    }}>
                       <div className='btnCarte'>Regarder {channel.user_name}</div>
+                    </Link>
                       
 
                   </div>
