@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import api from '../../api'
+import { Link } from 'react-router-dom'
 
 export default function Sidebar() {
 
@@ -13,7 +14,6 @@ export default function Sidebar() {
 
       let dataArray = result.data.data;
 
-      console.log(dataArray);
 
       let gameIDs = dataArray.map(stream => {
         return stream.game_id
@@ -23,7 +23,6 @@ export default function Sidebar() {
         return stream.user_id;
       })
 
-      console.log(gameIDs, userIDs);
 
 
       let baseUrlGames = "https://api.twitch.tv/helix/games?"
@@ -83,7 +82,6 @@ export default function Sidebar() {
 
   }, [])
 
-      console.log(topStreams);
 
 
   return (
@@ -91,26 +89,29 @@ export default function Sidebar() {
         <h2 className='titreSidebar'>Chaînes recommandées</h2>
         <ul className='listeStream'>
 
-          {console.log('ahahaahah')}
+          
 
           {topStreams.map((stream, index) => (
-            <li key={index} className='containerFlexSideBar'> 
 
-                <img src={stream.truePic} alt="logo user" className='profilePicRonde' />
+            <Link key={index} to={{pathname: `/live/${stream.login}`}} className='lien'>
+                <li key={index} className='containerFlexSideBar'> 
 
-                <div className='streamUser'>{stream.user_name}</div>
+                    <img src={stream.truePic} alt="logo user" className='profilePicRonde' />
 
-                <div className='viewerRight'>
+                    <div className='streamUser'>{stream.user_name}</div>
 
-                  <div className='pointRouge'></div>
-                  <div>{stream.viewer_count}</div>
+                    <div className='viewerRight'>
 
-                </div>
+                      <div className='pointRouge'></div>
+                      <div>{stream.viewer_count}</div>
+
+                    </div>
 
 
-                <div className='gameNameSidebar'>{stream.gameName}</div>
+                    <div className='gameNameSidebar'>{stream.gameName}</div>
 
-            </li>
+                </li>
+            </Link>
           ))
 
           }
