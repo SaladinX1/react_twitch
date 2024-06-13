@@ -1,35 +1,48 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../api'
 import { Link, useParams } from 'react-router-dom'
+import Erreur from '../Erreur/Erreur';
+
 
 export default function Resultats() {
- 
+    
     let {slug} = useParams();
-
+   
+    
     const [result, setResult] = useState(true);
     const [streamerInfo, setStreamerInfo] = useState([]);
  
     let cleanSearch = slug.replace(/ /g,'');
 
     useEffect(() => {
+
+        
         const fetchData = async () => {
             const result = await api.get(`https://api.twitch.tv/helix/users?login=${cleanSearch}`);
             console.log(result);
 
-            setStreamerInfo(result.data.data)
+            if(result.data.data === 0) {
+                setResult(false)
+            }else {
+                setStreamerInfo(result.data.data)
+            }
 
+            
         }
         fetchData();
-    }, [])
+    }, [cleanSearch])
 
     return (
-    <div>
+
+        result ?
+     
+     <div>
 
             <div className='containerDecaleResultats'>
                     <h4>Résultats de recherche : </h4>
 
                     {streamerInfo.map((stream, index) => (
-
+                        
                         <div key={index} className='carteResultats'>
 
                         <img src={stream.profile_image_url} alt="resultat profile" className='imgCarte' />
@@ -53,6 +66,7 @@ export default function Resultats() {
 
             </div>
 
-    </div>
+    </div> : <Erreur />
+                    
   )
 }
