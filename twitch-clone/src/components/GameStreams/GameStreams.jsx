@@ -6,7 +6,8 @@ export default function GameStreams() {
 
     let location = useLocation();
     let {slug} = useParams();
-    console.log(location.pathname.slice(21, location.pathname.length));
+    // console.log(location.state.slice(21, location.pathname.length));
+    console.log(location.state.gameID);
   
     const [streamData, setStreamData] = useState([]);
     const [viewers, setViewers] = useState(0)
@@ -16,6 +17,7 @@ export default function GameStreams() {
             const result = await api.get(`https://api.twitch.tv/helix/streams?game_id=${location.state.gameID}`);
             console.log(result);
             let dataArray = result.data.data;
+            console.log(dataArray);
 
             let finalArray = dataArray.map(stream => {
             let newUrl = stream.thumbnail_url
@@ -24,15 +26,17 @@ export default function GameStreams() {
             stream.thumbnail_url = newUrl;
             return stream;
             });
+            console.log(finalArray);
 
             // calcul du total des viewers
             let totalViewers = finalArray.reduce((acc, val) => {
                 return acc + val.viewer_count;
             }, 0)
-
+            console.log(totalViewers);
             let userIDs = dataArray.map(stream => {
                 return stream.user_id;
             })
+            console.log(userIDs);
 
             let baseUrl = "https://api.twitch.tv/helix/users?"
 
@@ -42,6 +46,8 @@ export default function GameStreams() {
                 return (queryParamsUsers = queryParamsUsers + `id=${id}&`)
             })
             let finalUrl = baseUrl + queryParamsUsers;
+
+            console.log(finalUrl);
 
             let getUsersLogin = await api.get(finalUrl);
             let userLoginArray = getUsersLogin.data.data;
@@ -59,8 +65,8 @@ export default function GameStreams() {
                 return stream;
             })
 
-        fetchData(totalViewers);
-        setStreamData(finalArray)
+        setViewers(totalViewers);
+        setStreamData(finalArray);
         }
 
         fetchData();
@@ -68,7 +74,7 @@ export default function GameStreams() {
             console.log(viewers);
             console.log(streamData);
 
-    }, [])
+    }, [location.state])
 
     return (
     <div>
@@ -79,7 +85,7 @@ export default function GameStreams() {
 
        <div className='flexAcceuil'>
 
-            {(streamData && viewers) && streamData.map((stream, index) => {
+            {(streamData && viewers) && streamData.map((stream, index) => (
 
                 <div className='carteGameStreams' key={index}>
 
@@ -101,7 +107,7 @@ export default function GameStreams() {
 
                 </div>
 
-            })}
+            ))}
 
        </div>
 
